@@ -1,8 +1,6 @@
 ---------------------------------------------------------------------
 -- Microsoft SQL Server T-SQL Fundamentals
 -- Chapter 08 - Data Modification
--- Solutions
--- © Itzik Ben-Gan 
 ---------------------------------------------------------------------
 
 -- 1
@@ -67,33 +65,6 @@ WHERE orderdate >= '20140101'
 -- Use the OUTPUT clause to return the orderid and orderdate
 -- of the deleted orders
 
--- Desired output:
-orderid     orderdate
------------ -----------
-10248       2014-07-04 
-10249       2014-07-05 
-10250       2014-07-08 
-10251       2014-07-08 
-10252       2014-07-09 
-10253       2014-07-10 
-10254       2014-07-11 
-10255       2014-07-12 
-10256       2014-07-15 
-10257       2014-07-16 
-10258       2014-07-17 
-10259       2014-07-18 
-10260       2014-07-19 
-10261       2014-07-19 
-10262       2014-07-22 
-10263       2014-07-23 
-10264       2014-07-24 
-10265       2014-07-25 
-10266       2014-07-26 
-10267       2014-07-29 
-10268       2014-07-30 
-10269       2014-07-31 
-
-(22 row(s) affected)
 
 -- Solution:
 DELETE FROM dbo.Orders
@@ -110,18 +81,17 @@ WHERE EXISTS
    FROM dbo.Customers AS C
    WHERE dbo.Orders.custid = C.custid
      AND C.country = N'Brazil');
-
+---Solution option 2:
 DELETE FROM O
 FROM dbo.Orders AS O
   INNER JOIN dbo.Customers AS C
     ON O.custid = C.custid
 WHERE country = N'Brazil';
-
+---Solution option 3:
 MERGE INTO dbo.Orders AS O
 USING (SELECT * FROM dbo.Customers WHERE country = N'Brazil') AS C
   ON O.custid = C.custid
 WHEN MATCHED THEN DELETE;
-
 -- 4
 -- Run the following query against dbo.Customers,
 -- and notice that some rows have a NULL in the region column
@@ -242,5 +212,4 @@ TRUNCATE TABLE dbo.Orders;
 ALTER TABLE dbo.OrderDetails ADD CONSTRAINT FK_OrderDetails_Orders
   FOREIGN KEY(orderid) REFERENCES dbo.Orders(orderid);
 
--- When you're done, run the following code for cleanup
-DROP TABLE IF EXISTS dbo.OrderDetails, dbo.Orders, dbo.Customers;
+
