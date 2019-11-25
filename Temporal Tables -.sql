@@ -79,7 +79,6 @@ WHERE deptid = 4;
 
 COMMIT TRAN;
 
--- P2 = 2016-02-18 10:28:27 -- replace this with your time
 
 -- 2-3
 -- Update the manager ID of department 3 to 13. Call the point in time
@@ -92,7 +91,6 @@ UPDATE dbo.Departments
   SET mgrid = 13
 WHERE deptid = 3;
 
--- P3 = 2016-02-18 10:30:40
 
 -- 3
 -- In this exercise you will query data from the table Departments.
@@ -116,19 +114,12 @@ FROM dbo.Departments
 -- Be explicit about the column names in the SELECT list,
 -- and include the validfrom and validto columns).
 
--- Desired output (with validfrom and validto reflecting your modification times):
-deptid  deptname             mgrid  validfrom            validto
-------- -------------------- ------ -------------------- --------------------
-1       HR                   7      2016-02-18 10:26:07  9999-12-31 23:59:59
-2       IT                   5      2016-02-18 10:26:07  9999-12-31 23:59:59
-3       Sales and Marketing  13     2016-02-18 10:30:40  9999-12-31 23:59:59
-3       Sales and Marketing  11     2016-02-18 10:28:27  2016-02-18 10:30:40
 
 -- Solution:
 SELECT deptid, deptname, mgrid, validfrom, validto
 FROM dbo.Departments
-  FOR SYSTEM_TIME BETWEEN '2016-02-18 10:28:27'  -- replace this with your P2
-                      AND '2016-02-18 10:30:40'; -- replace this with your P3
+  FOR SYSTEM_TIME BETWEEN '  '  -- replace this with your P2
+                      AND '  '; -- replace this with your P3
 
 -- 4
 -- Drop the table Departments and its associated history table.
